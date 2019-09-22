@@ -6,7 +6,58 @@ Created on Sun Sep 22 00:16:11 2019
 @author: wumeiqi
 """
 
+#%% Information of appliccant
+YOB = 1997
+Income = 1000
+address='Cornell University, USA'
+Apl_Year = 2019
+gender = 0
+
+#%% Import packages
 import urllib3, requests, json
+import urllib.request, urllib.parse, urllib.error
+import json
+import ssl
+import json
+
+
+#%% Using google place API to extract the longitude and lagitude of address
+def get_LonLat(address):
+    # ignore SSL certificate errors
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode =ssl.CERT_NONE
+    
+    api_key = 'AIzaSyAwcL0qG5tA_s0gw1DsqP1VGZEBCaTkFdI'
+    serviceurl = 'https://maps.googleapis.com/maps/api/place/textsearch/json?'
+  #  address='Cornell University, USA'
+    
+    parms = dict()
+    parms['query'] = address
+    parms['key'] = api_key
+    url = serviceurl+urllib.parse.urlencode(parms)
+    
+#    print('Retrieving', url)
+    uh = urllib.request.urlopen(url, context=ctx)
+    data = uh.read().decode() #### data is a string
+#    print('Retrieved', len(data), 'characters', data[:20].replace('\n', ' '))
+    
+    try:
+        js = json.loads(data) #### js is a dict
+    except:
+        print(data) # print in case unicode causes an error
+        
+    if 'status' not in js or (js['status']!='OK' and js['status']!='ZERO_RESULTS'):
+        print('==== Failure To Retrieve ====')
+        print(data)
+    
+    js = json.loads(str(data))
+    lon = js['results'][0]['geometry']['location']['lng']
+    lat = js['results'][0]['geometry']['location']['lat']
+#    print('Longitude : ', lon)
+#    print('Latitude : ', lat)
+    return([lon, lat])
+#%% 
 
 apikey= "5QvD8hAoDtldp0mUvQ7EyrYqUCEvgb-grBeH2a4RM_Hc"
     
@@ -25,7 +76,9 @@ ml_instance_id = "9d0fcc7a-39a9-4874-a1fb-cdc5df9b3901"
 
 # Type in the values to be scored here: 
 # ["YOB", "Income", "Lon", "Lat", "Lon_lat", "Apl_Year", "gender"]
-array_of_values_to_be_scored = [1997, 1000, 46, 46, "46, 23", 2018, 0]
+location = get_LonLat(address)
+array_of_values_to_be_scored = [YOB, Income, location[0], location[1], 
+                                str(location[0])+', '+str(location[1]), Apl_Year, gender]
 
     
 # NOTE: generate iam_token and retrieve ml_instance_id based on provided documentation

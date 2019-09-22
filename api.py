@@ -28,7 +28,7 @@ def get_LonLat(address):
     ctx.check_hostname = False
     ctx.verify_mode =ssl.CERT_NONE
     
-    api_key = 'AIzaSyAwcL0qG5tA_s0gw1DsqP1VGZEBCaTkFdI'
+    api_key = ''
     serviceurl = 'https://maps.googleapis.com/maps/api/place/textsearch/json?'
   #  address='Cornell University, USA'
     

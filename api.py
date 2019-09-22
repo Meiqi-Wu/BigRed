@@ -7,11 +7,11 @@ Created on Sun Sep 22 00:16:11 2019
 """
 
 #%% Information of appliccant
-YOB = 1997
-Income = 1000
-address='Cornell University, USA'
-Apl_Year = 2019
-gender = 0
+YOB = 1997      # Year of Birth
+Income = 1000   # Annnual Income
+address='Cornell University, USA' # Address
+Apl_Year = 2019   # Year of Application
+gender = 0        # 0 male, 1 female
 
 #%% Import packages
 import urllib3, requests, json
@@ -57,9 +57,9 @@ def get_LonLat(address):
 #    print('Longitude : ', lon)
 #    print('Latitude : ', lat)
     return([lon, lat])
-#%% 
+#%% Call IBM API
 
-apikey= "5QvD8hAoDtldp0mUvQ7EyrYqUCEvgb-grBeH2a4RM_Hc"
+apikey= ""
     
 # Request iam_token
 url     = "https://iam.bluemix.net/oidc/token"

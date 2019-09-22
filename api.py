@@ -42,4 +42,5 @@ response_scoring = requests.post('https://us-south.ml.cloud.ibm.com/v4/deploymen
                                  json=payload_scoring, headers=header)
 print("Scoring response")
 scoring = json.loads(response_scoring.text)
-print(scoring)
+print('The possibility of acceptance is: ')
+print(scoring['predictions'][0]['values'][0][1][1])
